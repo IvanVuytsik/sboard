@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pixi.js | Skia Canvas Board</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        padding: 32px;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        background: #f0f4f8;
+        color: #1e293b;
+        min-height: 100vh;
+      }
+
+      .header {
+        text-align: center;
+        margin-bottom: 32px;
+      }
+
+      .header h1 {
+        font-size: 24px;
+        font-weight: 600;
+        color: #1e293b;
+        margin: 0 0 6px 0;
+        letter-spacing: -0.3px;
+      }
+
+      .header p {
+        font-size: 14px;
+        color: #64748b;
+        margin: 0;
+      }
+
+      .canvas-container {
+        display: flex;
+        gap: 24px;
+        justify-content: center;
+        margin-bottom: 24px;
+        flex-wrap: wrap;
+      }
+
+      .canvas-section {
+        background: #ffffff;
+        border-radius: 12px;
+        padding: 16px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 4px 12px rgba(0, 0, 0, 0.04);
+        border: 1px solid #e2e8f0;
+      }
+
+      .canvas-section h2 {
+        margin: 0 0 12px 0;
+        font-size: 13px;
+        font-weight: 500;
+        color: #94a3b8;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        text-align: center;
+      }
+
+      canvas {
+        border-radius: 6px;
+        display: block;
+        background: #fefefe;
+        border: 1px solid #e2e8f0;
+      }
+
+      #pixi-canvas, #skia-canvas {
+        width: 400px;
+        height: 300px;
+      }
+
+      .controls-panel {
+        max-width: 580px;
+        margin: 0 auto;
+        background: #ffffff;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 4px 12px rgba(0, 0, 0, 0.04);
+        border: 1px solid #e2e8f0;
+      }
+
+      .controls-row {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 14px;
+        flex-wrap: wrap;
+      }
+
+      button {
+        flex: 1;
+        min-width: 120px;
+        padding: 11px 16px;
+        background: #2563eb;
+        color: #ffffff;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 500;
+        font-family: inherit;
+        transition: all 0.15s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+      }
+
+      button:hover {
+        background: #1d4ed8;
+        transform: translateY(-1px);
+      }
+
+      button:active {
+        transform: translateY(0);
+      }
+
+      button.secondary {
+        background: #f1f5f9;
+        color: #475569;
+      }
+
+      button.secondary:hover {
+        background: #e2e8f0;
+      }
+
+      button.secondary:disabled {
+        background: #f8fafc;
+        color: #cbd5e1;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      button svg {
+        width: 15px;
+        height: 15px;
+      }
+
+      #status {
+        padding: 12px 16px;
+        background: #f8fafc;
+        border-radius: 8px;
+        font-size: 13px;
+        color: #64748b;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      #status::before {
+        content: '';
+        width: 8px;
+        height: 8px;
+        background: #22c55e;
+        border-radius: 50%;
+        flex-shrink: 0;
+      }
+
+      #status.error::before {
+        background: #ef4444;
+      }
+
+      #status.warning::before {
+        background: #f59e0b;
+      }
+
+      @media (max-width: 900px) {
+        .canvas-container {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .canvas-section {
+          width: 100%;
+          max-width: 440px;
+        }
+
+        body {
+          padding: 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <h1>Pixi.js | Skia Canvas Board</h1>
+      <p>Vector Graphics with PDF Export</p>
+    </div>
+
+    <div class="canvas-container">
+      <div class="canvas-section">
+        <h2>Pixi Canvas</h2>
+        <canvas id="pixi-canvas" width="400" height="300"></canvas>
+      </div>
+      <div class="canvas-section">
+        <h2>Skia Canvas</h2>
+        <canvas id="skia-canvas" width="400" height="300"></canvas>
+      </div>
+    </div>
+
+    <div class="controls-panel">
+      <div class="controls-row">
+        <button id="generate-shape">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2"/>
+            <circle cx="12" cy="12" r="3"/>
+          </svg>
+          Generate Shape
+        </button>
+        <button id="export-pdf" class="secondary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+            <line x1="12" y1="18" x2="12" y2="12"/>
+            <line x1="9" y1="15" x2="15" y2="15"/>
+          </svg>
+          Export PDF
+        </button>
+        <button id="reset-scene" class="secondary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="1 4 1 10 7 10"/>
+            <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/>
+          </svg>
+          Reset
+        </button>
+      </div>
+      <div id="status">Ready</div>
+    </div>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
