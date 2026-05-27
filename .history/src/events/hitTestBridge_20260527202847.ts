@@ -8,10 +8,11 @@ export function setupSkiaPointerEvents(_skiaContext: any, canvasId: string, _sce
   canvas.style.cursor = 'pointer';
 
   canvas.addEventListener('pointerdown', (_event) => {
-    consoleP.log('Skia canvas pointer down');
+    console.log('Skia canvas pointer down');
   });
 
   canvas.addEventListener('pointerup', (_event) => {
     console.log('Skia canvas pointer up');
   });
 }
+P
