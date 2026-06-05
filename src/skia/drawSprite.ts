@@ -1,5 +1,5 @@
 import type { SkiaContext } from './skiaTypes';
-import * as PIXI from 'pixi.js';
+import * as PIXI from 'pixi.js-legacy';
 
 export function drawSprite(skiaContext: SkiaContext, sprite: PIXI.Sprite): void {
   const { canvasKit, canvas } = skiaContext;

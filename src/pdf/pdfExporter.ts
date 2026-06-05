@@ -1,5 +1,5 @@
 import type { SkiaContext } from '../skia';
-import * as PIXI from 'pixi.js';
+import * as PIXI from 'pixi.js-legacy';
 import { renderPixiContainerToSkia } from '../skia';
 
 export async function exportToPDF(skiaContext: SkiaContext | null, scene: PIXI.Container): Promise<void> {

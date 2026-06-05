@@ -1,10 +1,30 @@
-import * as PIXI from 'pixi.js';
+import * as PIXI from 'pixi.js-legacy';
+import { setupGraphicsPointerEvents } from '../pixi/pixiEvents';
+
+function getRandomColor(): number {
+  return Math.random() * 0xFFFFFF;
+}
 
 export function generateRandomShape(): PIXI.Graphics {
   const graphics = new PIXI.Graphics();
 
   const shapeType = Math.floor(Math.random() * 3);
-  const color = Math.random() * 0xFFFFFF;
+  const color = getRandomColor();
+
+  let shapeName = 'FIGURE';
+  switch (shapeType) {
+    case 0:
+      shapeName = 'RECTANGLE';
+      break;
+    case 1:
+      shapeName = 'CIRCLE';
+      break;
+    case 2:
+      shapeName = 'TRIANGLE';
+      break;
+  }
+
+  graphics.name = `${shapeName}`;
 
   graphics.lineStyle(2, 0x000000);
   graphics.beginFill(color);
@@ -43,4 +63,6 @@ export function addRandomShapeToContainer(container: PIXI.Container) {
   shape.rotation = Math.random() * Math.PI * 2;
   shape.scale.set(0.5 + Math.random() * 0.5);
   container.addChild(shape);
+
+  setupGraphicsPointerEvents(shape);
 }

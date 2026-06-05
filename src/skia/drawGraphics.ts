@@ -1,5 +1,5 @@
 import type { SkiaContext } from './skiaTypes';
-import * as PIXI from 'pixi.js';
+import * as PIXI from 'pixi.js-legacy';
 
 export function drawGraphics(skiaContext: SkiaContext, graphics: PIXI.Graphics): void {
   const { canvasKit, canvas } = skiaContext;

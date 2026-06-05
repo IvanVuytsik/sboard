@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "canvaskit-wasm": "^0.41.1",
-    "pixi.js": "^7.2.4",
+    "pixi.js-legacy": "7.2.4",
     "skia": "^0.3.0"
   }
 }

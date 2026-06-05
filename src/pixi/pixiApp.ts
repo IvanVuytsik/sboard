@@ -1,4 +1,4 @@
-import * as PIXI from 'pixi.js';
+import * as PIXI from 'pixi.js-legacy';
 
 export async function initPixiApp(canvasId: string, config: any) {
   const canvas = document.getElementById(canvasId) as HTMLCanvasElement;
@@ -14,6 +14,7 @@ export async function initPixiApp(canvasId: string, config: any) {
     backgroundAlpha: 1,
     resolution: window.devicePixelRatio || 1,
     autoDensity: true,
+    forceCanvas: true,
   });
 
   if (!canvas.parentElement) {

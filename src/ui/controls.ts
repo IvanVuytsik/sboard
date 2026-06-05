@@ -1,4 +1,4 @@
-import * as PIXI from 'pixi.js';
+import * as PIXI from 'pixi.js-legacy';
 import { addRandomShapeToContainer } from '../scene';
 import { renderPixiContainerToSkia } from '../skia';
 

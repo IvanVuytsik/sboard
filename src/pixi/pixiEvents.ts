@@ -1,4 +1,4 @@
-import * as PIXI from 'pixi.js';
+import * as PIXI from 'pixi.js-legacy';
 
 export function setupPixiPointerEvents(pixiApp: any, scene: PIXI.Container) {
   pixiApp.stage.eventMode = 'static';
@@ -7,12 +7,32 @@ export function setupPixiPointerEvents(pixiApp: any, scene: PIXI.Container) {
   setupContainerPointerEvents(scene);
 }
 
+export function setupGraphicsPointerEvents(graphics: PIXI.Graphics) {
+  graphics.eventMode = 'static';
+  graphics.cursor = 'pointer';
+
+  graphics.on('pointerdown', () => {
+    console.log('Pixi pointer down on:', graphics.name || 'unnamed');
+  });
+  graphics.on('pointerup', () => {
+    console.log('Pixi pointer up on:', graphics.name || 'unnamed');
+  });
+}
+
+export function setupSpritePointerEvents(sprite: PIXI.Sprite) {
+  sprite.eventMode = 'static';
+  sprite.cursor = 'pointer';
+
+  sprite.on('pointerdown', () => {
+    console.log('Pixi pointer down on:', sprite.name || 'unnamed');
+  });
+  sprite.on('pointerup', () => {
+    console.log('Pixi pointer up on:', sprite.name || 'unnamed');
+  });
+}
+
 function setupContainerPointerEvents(container: PIXI.Container) {
   container.eventMode = 'static';
-
-  container.on('pointerdown', onPointerDown);
-  container.on('pointerup', onPointerUp);
-  container.on('pointerupoutside', onPointerUp);
 
   for (const child of container.children) {
     if (child instanceof PIXI.Container) {
@@ -22,37 +42,5 @@ function setupContainerPointerEvents(container: PIXI.Container) {
     } else if (child instanceof PIXI.Sprite) {
       setupSpritePointerEvents(child);
     }
-  }
-}
-
-function setupGraphicsPointerEvents(graphics: PIXI.Graphics) {
-  graphics.eventMode = 'static';
-  graphics.cursor = 'pointer';
-
-  graphics.on('pointerdown', onPointerDown);
-  graphics.on('pointerup', onPointerUp);
-  graphics.on('pointerupoutside', onPointerUp);
-}
-
-function setupSpritePointerEvents(sprite: PIXI.Sprite) {
-  sprite.eventMode = 'static';
-  sprite.cursor = 'pointer';
-
-  sprite.on('pointerdown', onPointerDown);
-  sprite.on('pointerup', onPointerUp);
-  sprite.on('pointerupoutside', onPointerUp);
-}
-
-function onPointerDown(event: any) {
-  console.log('Pixi pointer down on:', event.target.name || 'unnamed');
-  if (event.target instanceof PIXI.Graphics) {
-    event.target.alpha = 0.7;
-  }
-}
-
-function onPointerUp(event: any) {
-  console.log('Pixi pointer up on:', event.target.name || 'unnamed');
-  if (event.target instanceof PIXI.Graphics) {
-    event.target.alpha = 1;
   }
 }
